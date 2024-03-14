@@ -682,11 +682,6 @@ module.exports = {${MAVHEAD}, ${MAVPROCESSOR}};
 def generate(basename, xml):
     '''generate complete javascript implementation'''
 
-    if basename.endswith('.js'):
-        filename = basename
-    else:
-        filename = basename + '.js'
-
     msgs = []
     enums = []
     filelist = []
@@ -694,6 +689,13 @@ def generate(basename, xml):
         msgs.extend(x.message)
         enums.extend(x.enum)
         filelist.append(os.path.basename(x.filename))
+
+    ver = ("20" if xml[0].protocol_marker == 253 else "10")
+
+    if basename.endswith('.js'):
+        filename = basename
+    else:
+        filename = basename + ver + '.js'
 
     for m in msgs:
         if xml[0].little_endian:
